@@ -1,0 +1,57 @@
+#!/bin/bash
+echo 'file.c name?'
+read file
+
+echo 'prototype?'
+read prototype
+
+if [[ "$prototype" == *";" ]]; then
+	prototype="${prototype%;}"
+fi
+
+proc=$(echo "$prototype" | sed 's/^[^ ]* //; s/^\*//; s/([^()].*//')
+
+
+echo 'function description?'
+read function_description
+
+_autocomplete_files(){
+	local cur=${COMP_WORDS[COMP_CWORD]}
+	COMPREPLY=( $(compgen -A file -- "$cur") )
+}
+complete -F -autocomplete_files -o filenames read
+
+echo 'header file?'
+read -e -i "" header
+
+tuhermana="/*
+* File: $file
+* Auth: Gabriel Morffe, Joaquin Aguilar
+*/
+
+#include \"$header\"
+
+/**
+ * $proc - $function_description
+ *
+ * Return: Always 0 (Success)
+ */
+$prototype
+{
+	/*yourcodebitch*/
+		return (0);
+}"
+
+echo -e "$tuhermana" > "$file"
+
+if grep -q "#endif" "$header"; then
+	sed -i "/#endif/i $prototype;" "$header"
+else
+	echo "$prototype;" >> "$header"
+fi
+
+
+
+
+
+

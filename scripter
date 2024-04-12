@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "script?"
+read script
+
+echo "#!/bin/bash" > "$script"
+
+chmod +x "$script"
