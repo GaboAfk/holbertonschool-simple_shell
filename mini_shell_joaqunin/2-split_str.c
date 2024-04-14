@@ -83,7 +83,8 @@ int main (void)
 		c--;
 	}
 
-	free (array);
+	free(line);
+	free(array);
 
 	return (0);
 }
