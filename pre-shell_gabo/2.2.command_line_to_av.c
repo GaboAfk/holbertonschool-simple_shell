@@ -16,7 +16,8 @@ char **cmd_line_to_av(char *str)
 {
 	char **arr = NULL;
 	char *token, *buffer_cp;
-	int words = 0, j, i = 0, buf_len;
+	int words = 0, i = 0, buf_len;
+	int j;
 
 	if (!str)
 		return (arr);
@@ -30,6 +31,8 @@ char **cmd_line_to_av(char *str)
 	if (buffer_cp[buf_len - 1] == '\n')
 		buffer_cp[buf_len - 1] = '\0';
 
+	printf("buffer_cp = %s\n", buffer_cp);
+	
 	token = strtok(buffer_cp, " ");
 	while (token)
 	{
@@ -37,29 +40,50 @@ char **cmd_line_to_av(char *str)
 		token = strtok(NULL, " ");
 	}
 
-	arr = malloc(words * sizeof(char *));
-	if (!arr)
-    {
-        free(buffer_cp);
-        return NULL;
-    }
+	printf("total words = %d\n", words);
 
+	buffer_cp = strdup(str);
+	if (!buffer_cp)
+		return (NULL);
+
+	if (buffer_cp[buf_len - 1] == '\n')
+		buffer_cp[buf_len - 1] = '\0';
+
+	printf("malloc(%d + %d * %ld);\n", words, 1, sizeof(char *));
+	arr = malloc(words + 1 * sizeof(char *));
+	if (!arr)
+	{
+		free(buffer_cp);
+		return (NULL);
+	}
+printf("buffer_cp = %s\n", buffer_cp);
 	token = strtok(buffer_cp, " ");
 	while (token)
 	{
+		
+	printf("token = %s\n", token);
 		arr[i] = strdup(token);
-        if (!arr[i])
-        {
-            for (j = 0; j < i; j++)
-                free(arr[j]);
-            free(arr);
-            free(buffer_cp);
-            return NULL;
-        }
-        i++;
-        token = strtok(NULL, " ");
+	
+	printf("arr[%d] = %s\n", i, arr[i]);
+		if (!arr[i])
+		{
+			for (j = 0; j < i; j++)
+				free(arr[j]);
+			free(arr);
+			free(buffer_cp);
+			return (NULL);
+		}
+		i++;
+		token = strtok(NULL, " ");
 	}
+	printf("i = %d\n", i);
+	/*if (i > 0)
+		arr[i + 1] = NULL;
+	else
+		arr[i] = NULL;*/
 	free(buffer_cp);
+
+
 	return (arr);
 }
 
@@ -110,7 +134,7 @@ int main(void)
 		}
 		free(p);
 	}
-	
+
 	free(buffer);
 
 	return (0);
