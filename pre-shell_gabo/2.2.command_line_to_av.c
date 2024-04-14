@@ -16,7 +16,7 @@ char **cmd_line_to_av(char *str)
 {
 	char **arr = NULL;
 	char *token, *buffer_cp;
-	int words = 0, i = 0;
+	int words = 0, j, i = 0;
 
 	if (!str)
 		return (arr);
@@ -32,18 +32,27 @@ char **cmd_line_to_av(char *str)
 		token = strtok(NULL, " ");
 	}
 
-	arr = malloc(sizeof(words * sizeof(char *)));
+	arr = malloc(words * sizeof(char *));
 	if (!arr)
-		return (NULL);
+    {
+        free(buffer_cp);
+        return NULL;
+    }
 
 	token = strtok(buffer_cp, " ");
 	while (token)
 	{
 		arr[i] = strdup(token);
-		if (!arr[i])
-			return (NULL);
-		i++;
-		token = strtok(NULL, " ");
+        if (!arr[i])
+        {
+            for (j = 0; j < i; j++)
+                free(arr[j]);
+            free(arr);
+            free(buffer_cp);
+            return NULL;
+        }
+        i++;
+        token = strtok(NULL, " ");
 	}
 	free(buffer_cp);
 	return (arr);
@@ -56,12 +65,12 @@ char **cmd_line_to_av(char *str)
  */
 int main(void)
 {
-	char *buffer = NULL, *token;
+	char *buffer = NULL;  /*,  *token; */
 	size_t bufsiz = 0;
 	int err;
 
-/*	char **p;*/
-/*	int i;*/
+	char **p;
+	int i;
 
 	while (1)
 	{
@@ -74,33 +83,29 @@ int main(void)
 			break;
 		}
 
-		if (strcmp(buffer, "exit\n") == 0)
+		if (strncmp(buffer, "exit\n", 5) == 0)
 			break;
 
 		printf("cmd = %s", buffer);
-
+/*
 		token = strtok(buffer, " ");
 		while (token)
 		{
 			printf("\"array\" = %s", token);
 			token = strtok(NULL, " ");
 		}
-
-/*		p = cmd_line_to_av(buffer);*/
-/*		i = 0;*/
-/*		while (p[i])*/
-/*		{*/
-/*			printf("array[%d] = %s\n", i, p[i]);*/
-/*			i++;*/
-/*		}*/
+*/
+		p = cmd_line_to_av(buffer);
+		i = 0;
+		while (p[i])
+		{
+			printf("array[%d] = %s\n", i, p[i]);
+			free(p[i]);
+			i++;
+		}
+		free(p);
 	}
-/*	i = 0;*/
-/*	while (p[i])*/
-/*	{*/
-/*		free(p[i]);*/
-/*		i++;*/
-/*	}*/
-/*	free(p);*/
+	
 	free(buffer);
 
 	return (0);
