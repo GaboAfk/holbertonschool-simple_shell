@@ -1,4 +1,5 @@
 #!/bin/bash
+git pull
 
 _autocomplete_files(){
 	local cur=${COMP_WORDS[COMP_CWORD]}
