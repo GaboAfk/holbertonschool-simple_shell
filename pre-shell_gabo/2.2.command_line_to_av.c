@@ -16,14 +16,19 @@ char **cmd_line_to_av(char *str)
 {
 	char **arr = NULL;
 	char *token, *buffer_cp;
-	int words = 0, j, i = 0;
+	int words = 0, j, i = 0, buf_len;
 
 	if (!str)
 		return (arr);
 
 	buffer_cp = strdup(str);
+	buf_len = strlen(buffer_cp);
+
 	if (!buffer_cp)
 		return (NULL);
+
+	if (buffer_cp[buf_len - 1] == '\n')
+		buffer_cp[buf_len - 1] = '\0';
 
 	token = strtok(buffer_cp, " ");
 	while (token)
