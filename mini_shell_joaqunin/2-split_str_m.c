@@ -10,7 +10,6 @@ char **split_str (char *line)
 {
 	char *token, *cp_line = NULL;
 	char **array_str;
-	char delim[] = {" "};
 	int cont = 0;
 
 	cp_line = malloc(strlen(line) + 1);
@@ -19,12 +18,12 @@ char **split_str (char *line)
 
 	strcpy(cp_line, line);
 
-	token = strtok(line, delim);
+	token = strtok(line, " ");
 	cont++;
 
 	while (token)
 	{
-		token = strtok(NULL, delim);
+		token = strtok(NULL, " ");
 		cont++;
 	}
 
@@ -32,7 +31,7 @@ char **split_str (char *line)
 	if (!array_str)
 		return (NULL);
 
-	token = strtok(cp_line, delim);
+	token = strtok(cp_line, " ");
 	cont = 0;
 
 	while (token)
@@ -41,11 +40,45 @@ char **split_str (char *line)
 		if (array_str[cont] == NULL)
 			return (NULL);
 		strcpy(array_str[cont], token);
-		token = strtok(NULL, delim);
+		token = strtok(NULL, " ");
 		cont++;
 	}
 
 	free(cp_line);
 	return (array_str);
 
+}
+
+int main (void)
+{
+	char *line = NULL;
+	char **array;
+	size_t len = 0;
+	ssize_t impu;
+	int c = 0;
+
+	printf("$ ");
+
+	impu = getline(&line, &len, stdin);
+
+	if (impu == -1)
+	{
+		printf("Error, no data entered");
+		return (-1);
+	}
+	else
+	{
+		array = split_str(line);
+	}
+
+	for (c = 0; array[c] != NULL; c++)
+		printf("%s\n", array[c]);
+
+	for (; c >= 0; c--)
+		free(array[c]);
+
+	free(line);
+	free(array);
+
+	return (0);
 }
