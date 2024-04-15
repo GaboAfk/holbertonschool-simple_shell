@@ -71,17 +71,11 @@ int main (void)
 		array = split_str(line);
 	}
 
-	while (array)
-	{
+	for (c = 0; array[c] != NULL; c++)
 		printf("%s\n", array[c]);
-		c++;
-	}
 
-	while (c > 0)
-	{
+	for (; c >= 0; c--)
 		free(array[c]);
-		c--;
-	}
 
 	free(line);
 	free(array);
