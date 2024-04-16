@@ -1,0 +1,26 @@
+#!/bin/bash
+
+_autocomplete_files(){
+	local cur=${COMP_WORDS[COMP_CWORD]}
+	COMPREPLY=( $(compgen -A file -- "$cur") )
+}
+
+complete -F -autocomplete_files -o filenames read
+
+git pull
+
+echo "files or all?"
+read -e -i "" files_to_add
+
+if [ "$files_to_add" = "all" ] || [ "$files_to_add" = "." ]; then
+	git add .
+else
+	git add $files_to_add
+fi
+
+echo 'commit?'
+read commit
+
+git commit -m "$commit"
+
+git push
