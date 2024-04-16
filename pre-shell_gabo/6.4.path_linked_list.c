@@ -48,23 +48,27 @@ typedef struct node
 node *path_linked_list_builder(char *name)
 {
 	char *token, *path = _getenv(name);
-	node *head = NULL, *list = NULL;
+	node *head = NULL, *list = NULL, *aux;
 
 	if (!path)
 		return (NULL);
-
 	token = strtok(path, ":");
 	while (token)
 	{
+		aux = head;
+
 		list = malloc(sizeof(node));
 		if (!list)
 			return (NULL);
 		list->directory = NULL;
 		list->next = NULL;
 
+		while (aux && aux->next)
+			aux = aux->next;
+		if (aux)
+			aux->next = list;
 		if (!head)
 			head = list;
-
 		list->directory = strdup(token);
 		if (!list->directory)
 		{
@@ -95,6 +99,10 @@ int main(void)
 	node *list, *aux;
 
 	list = path_linked_list_builder("PATH");
+
+	printf("-----------\n");
+	printf("linked list\n");
+	printf("-----------\n");
 
 	while (list)
 	{
