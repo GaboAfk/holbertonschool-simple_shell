@@ -13,7 +13,7 @@
 int main(void)
 {
 	char *buffer = NULL;
-	size_t bufsiz = 0;
+	size_t bufsiz = 0, buf_len;
 	int err;
 	char *argv[] = {NULL, NULL};
 
@@ -29,8 +29,9 @@ int main(void)
 			exit(1);
 		}
 
-		if (buffer[bufsiz - 1] == '\n')
-			buffer[bufsiz - 1] = '\0';
+		buf_len = strlen(buffer);
+		if (buffer[buf_len - 1] == '\n')
+			buffer[buf_len - 1] = '\0';
 
 		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
 			break;
