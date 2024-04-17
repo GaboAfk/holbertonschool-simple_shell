@@ -2,29 +2,7 @@
 * File: patheneitor.c
 * Auth: Gabriel Morffe, Joaquin Aguilar
 */
-
 #include "zzz.h"
-
-/**
- * stat - check the status of the path
- * @path: entry string
- * @st: entry struct
- * Return: 0 if exist -1 if dont
- */
-int stat(char *path, struct stat st)
-{
-	if (stat(path, &st) == 0)
-	{
-		printf("FOUND %s\n", path);
-	}
-	else
-	{
-		printf("NOT FOUND %s\n", path);
-		return (-1)
-	}
-
-	return (0)
-}
 
 /**
  * _getenv - search path in environ
@@ -32,24 +10,82 @@ int stat(char *path, struct stat st)
  * Return: PATH of @name of NULL
  */
 char *_getenv(char *name)
-{	
+{
 	int i = 0;
+	char **env = environ;
 	size_t name_len = strlen(name);
 
-	while (environ[i])
+	printf("name = %s name_len = %ld\n", name, name_len);
+
+	while (env[i])
 	{
-		if (strncmp(name, environ[i], name_len) && (environ[i])[name_len] == '=')
-			return (&((environ[i])[name_len + 1]));
+		if ((strncmp(env[i], name, name_len) == 0) && (env[i])[name_len] == '=')
+			return (&((env[i])[name_len + 1]));
 		i++;
 	}
 	return (NULL);
 }
 
 /**
- * _getenv - search path in environ
- * @directories: entry str of directories
- * Return: PATH of @name of NULL
+ * get_dir - search a valid directory for @function and return a new PATH
+ * @function: entry function
  */
-char *_getenv(char *directories)
-{	
+void get_dir(char **function)
+{
+	char *directories, path[1024], **array_dir;
+	int i = 0;
+	struct stat st;
+
+	printf("entre en get_dir y function = %s\n", *function);
+
+	if (stat(*function, &st) == 0)
+		return;
+
+	printf("function invalida busco en PATH\n");
+
+	directories = _getenv("PATH");
+
+	array_dir = split_str(directories, ":");
+
+	while (array_dir && array_dir[i])
+	{
+		printf("array_dir[%d] = %s\n", i, array_dir[i]);
+		i++;
+	}
+
+	i = 0;
+	while (array_dir && array_dir[i])
+	{
+		memset(path, '\0', sizeof(path));
+
+		strcat(path, array_dir[i]);
+		strcat(path, "/");
+		strcat(path, *function);
+
+		printf("path = %s\n", path);
+
+		if (stat(path, &st) == 0)
+		{
+			printf("stat(%s, &st) == 0\n", path);
+			printf("sizeof%s = %ld\n", *function, sizeof(*function));
+			function = realloc(function, (strlen(path) + 1) * sizeof(char));
+			if (!function)
+			{
+				printf("Error realloc\n");
+				break;
+			}
+			printf("sizeof%s = %ld\n", *function, sizeof(*function));
+
+			strcpy(*function, path);
+			break;
+		}
+		i++;
+	}
+	i = 0;
+	while (array_dir && array_dir[i])
+	{
+		free(array_dir[i]);
+		i++;
+	}
+	free(array_dir);
 }

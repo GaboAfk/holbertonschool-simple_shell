@@ -3,6 +3,14 @@
 * Auth: Gabriel Morffe, Joaquin Aguilar
 */
 
+#define BOLD "\033[1m"
+#define BLINK "\033[6m"
+#define INVERT "\033[7m"
+#define RED "\033[31m"
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
+#define BG_CYAN "\033[46m"
+
 #include "zzz.h"
 
 /**
@@ -11,7 +19,7 @@
  * @delim: entry delimiter char
  * Return: an array of each words of str
  */
-char **split_str(char *buffer, char delim)
+char **split_str(char *buffer, char *delim)
 {
 	char *token, *cp_buffer;
 	char **array;
@@ -19,28 +27,22 @@ char **split_str(char *buffer, char delim)
 
 	if (!buffer)
 		return (NULL);
-
 	cp_buffer = strdup(buffer);
 	if (!cp_buffer)
 		return (NULL);
-
 	token = strtok(buffer, delim);
-
 	while (token)
 	{
 		words++;
 		token = strtok(NULL, delim);
 	}
-
 	array = malloc((words + 1)  * sizeof(char *));
 	if (!array)
 	{
 		free(cp_buffer);
 		return (NULL);
 	}
-
 	token = strtok(cp_buffer, delim);
-
 	while (token)
 	{
 		array[i] = strdup(token);
@@ -48,17 +50,14 @@ char **split_str(char *buffer, char delim)
 		{
 			for (j = 0; j < i; j++)
 				free(array[j]);
-
 			free(array);
 			free(cp_buffer);
 			printf("Error copy into array\n");
 			return (NULL);
 		}
-
 		token = strtok(NULL, delim);
 		i++;
 	}
-
 	array[words] = NULL;
 	free(cp_buffer);
 	return (array);
@@ -78,7 +77,7 @@ int main(void)
 
 	while (1)
 	{
-		printf("#holy$hel ");
+		printf("%s%s%s%s%s#holy$hel%s ", INVERT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
 
 		err = getline(&buffer, &bufsiz, stdin);
 
@@ -96,18 +95,13 @@ int main(void)
 			break;
 
 		array_str = split_str(buffer, " ");
-		array_str[0]
+		
+		printf("array_str[0] = %s\n", array_str[0]);
+	
+		get_dir(&array_str[0]);
 
-
-
-
-
-
-
-
-
-
-
+		printf("array_str[0] = %s\n", array_str[0]);
+		
 		if (execve(array_str[0], array_str, environ) == -1)
 			perror("Error");
 

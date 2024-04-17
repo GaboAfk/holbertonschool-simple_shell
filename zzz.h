@@ -10,6 +10,8 @@
 #include <sys/stat.h>
 
 extern char **environ;
+char **split_str(char *buffer, char *delim);
+char *_getenv(char *name);
+void get_dir(char **function);
 
-int stat(char *path, struct stat st);
 #endif
