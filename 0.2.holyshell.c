@@ -5,6 +5,14 @@
 
 #include "zzz.h"
 
+#define BOLD "\033[1m"
+#define BLINK "\033[6m"
+#define INVERT "\033[7m"
+#define RED "\033[31m"
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
+#define BG_CYAN "\033[46m"
+
 /**
  * split_str - split an str
  * @buffer: entry string
@@ -32,6 +40,7 @@ char **split_str(char *buffer)
 	}
 
 	array = malloc((words + 1)  * sizeof(char *));
+	printf("array = malloc((%d + 1) * %ld)\n", words, sizeof(char *));
 	if (!array)
 	{
 		free(cp_buffer);
@@ -77,14 +86,14 @@ int main(void)
 
 	while (1)
 	{
-		printf("#holy$hel ");
+		printf("%s%s%s%s%s#holy$hel%s ", INVERT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
 
 		err = getline(&buffer, &bufsiz, stdin);
 
 		if (err == -1)
 		{
 			printf("Error invalid command\n");
-			exit(1);
+			return (-1);
 		}
 
 		buf_len = strlen(buffer);
@@ -92,7 +101,10 @@ int main(void)
 			buffer[buf_len - 1] = '\0';
 
 		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
+		{
+			free(buffer);
 			break;
+		}
 
 		array_str = split_str(buffer);
 
@@ -102,11 +114,23 @@ int main(void)
 		i = 0;
 		while (array_str && array_str[i])
 		{
+			printf("array_str[%d] = %s\n", i, array_str[i]);
+			i++;
+		}
+		printf("array_str[%d] = %s\n", i, array_str[i]);
+		i = 0;
+		while (array_str && array_str[i])
+		{
+			printf("free(array_str[%d] = %s)\n", i, array_str[i]);
 			free(array_str[i]);
 			i++;
 		}
+		printf("free(array_str[%d] = %s)\n", i, array_str[i]);
+		free(array_str[i]);
+
 		if (array_str)
 		free(array_str);
+		array_str = NULL;
 
 		free(buffer);
 		buffer = NULL;
