@@ -11,4 +11,5 @@
 
 extern char **environ;
 
+int stat(char *path, struct stat st);
 #endif
