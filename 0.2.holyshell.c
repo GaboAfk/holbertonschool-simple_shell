@@ -5,17 +5,14 @@
 
 #include "zzz.h"
 
-
-
-
 /**
  * split_str - split an str
  * @buffer: entry string
  * Return: an array of each words of str
  */
-char **split_str(char *buffer)	
+char **split_str(char *buffer)
 {
-	char *token, cp_buffer;
+	char *token, *cp_buffer;
 	char **array;
 	int words = 0, i = 0, j;
 
@@ -23,7 +20,7 @@ char **split_str(char *buffer)
 		return (NULL);
 
 	cp_buffer = strdup(buffer);
-	if(!cp_buffer)
+	if (!cp_buffer)
 		return (NULL);
 
 	token = strtok(buffer, " ");
@@ -63,7 +60,6 @@ char **split_str(char *buffer)
 
 	array[words] = NULL;
 	free(cp_buffer);
-	
 	return (array);
 }
 
@@ -77,7 +73,7 @@ int main(void)
 	char *buffer = NULL;
 	char **array_str = NULL;
 	size_t bufsiz = 0;
-	int err, i = 0;
+	int err, i = 0, buf_len;
 
 	while (1)
 	{
@@ -91,8 +87,9 @@ int main(void)
 			exit(1);
 		}
 
-		if (buffer[bufsiz - 1] == '\n')
-			buffer[bufsiz - 1] = '\0';
+		buf_len = strlen(buffer);
+		if (buffer[buf_len - 1] == '\n')
+			buffer[buf_len - 1] = '\0';
 
 		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
 			break;
@@ -102,10 +99,11 @@ int main(void)
 		if (execve(array_str[0], array_str, environ) == -1)
 			perror("Error");
 
+		i = 0;
 		while (array_str && array_str[i])
 		{
 			free(array_str[i]);
-			i++;	
+			i++;
 		}
 		if (array_str)
 		free(array_str);
