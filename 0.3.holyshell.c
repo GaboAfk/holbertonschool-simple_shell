@@ -95,13 +95,8 @@ int main(void)
 			break;
 
 		array_str = split_str(buffer, " ");
-		
-		printf("array_str[0] = %s\n", array_str[0]);
-	
-		get_dir(&array_str[0]);
+	//	get_dir(&array_str[0]);
 
-		printf("array_str[0] = %s\n", array_str[0]);
-		
 		if (execve(array_str[0], array_str, environ) == -1)
 			perror("Error");
 
@@ -111,6 +106,7 @@ int main(void)
 			free(array_str[i]);
 			i++;
 		}
+		free(array_str[i]);
 		if (array_str)
 		free(array_str);
 

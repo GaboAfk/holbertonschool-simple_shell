@@ -15,8 +15,6 @@ char *_getenv(char *name)
 	char **env = environ;
 	size_t name_len = strlen(name);
 
-	printf("name = %s name_len = %ld\n", name, name_len);
-
 	while (env[i])
 	{
 		if ((strncmp(env[i], name, name_len) == 0) && (env[i])[name_len] == '=')
@@ -36,47 +34,31 @@ void get_dir(char **function)
 	int i = 0;
 	struct stat st;
 
-	printf("entre en get_dir y function = %s\n", *function);
-
 	if (stat(*function, &st) == 0)
 		return;
 
-	printf("function invalida busco en PATH\n");
-
 	directories = _getenv("PATH");
-
 	array_dir = split_str(directories, ":");
-
-	while (array_dir && array_dir[i])
-	{
-		printf("array_dir[%d] = %s\n", i, array_dir[i]);
-		i++;
-	}
 
 	i = 0;
 	while (array_dir && array_dir[i])
 	{
-		memset(path, '\0', sizeof(path));
+		memset(path, 0, sizeof(path));
 
 		strcat(path, array_dir[i]);
 		strcat(path, "/");
 		strcat(path, *function);
 
-		printf("path = %s\n", path);
-
 		if (stat(path, &st) == 0)
 		{
-			printf("stat(%s, &st) == 0\n", path);
-			printf("sizeof%s = %ld\n", *function, sizeof(*function));
-			function = realloc(function, (strlen(path) + 1) * sizeof(char));
+			free (*function);
+			*function = NULL;
+			*function = strdup(path);
 			if (!function)
 			{
 				printf("Error realloc\n");
 				break;
 			}
-			printf("sizeof%s = %ld\n", *function, sizeof(*function));
-
-			strcpy(*function, path);
 			break;
 		}
 		i++;
