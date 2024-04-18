@@ -4,6 +4,7 @@
 */
 
 #include "zzz.h"
+#include <signal.h>
 
 #define BOLD "\033[1m"
 #define BLINK "\033[6m"
@@ -72,6 +73,16 @@ char **split_str(char *buffer, char *delim)
 }
 
 /**
+ * sigint_handler - rompenachos
+ * @signum: signum
+ */
+void sigint_handler(int signum) {
+	(void)signum;
+    printf("No tan rapido amigo GGizi\n");
+}
+
+
+/**
  * main - simple_shell
  *
  * Return: Always 0 (Success)
@@ -85,6 +96,8 @@ int main(void)
 	struct stat st;
 	pid_t pid;
 
+	signal(SIGINT, sigint_handler);
+
 	while (1)
 	{
 		printf("%s%s%s%s%s#holy$hel%s ", INVERT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
@@ -93,8 +106,15 @@ int main(void)
 
 		if (err == -1)
 		{
-			printf("Error invalid command\n");
-			return (-1);
+			printf("EOF break\n");
+			free(buffer);
+			break;
+		}
+
+		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
+		{
+			free(buffer);
+			break;
 		}
 
 		buf_len = strlen(buffer);
@@ -109,13 +129,22 @@ int main(void)
 			break;
 		}
 
-	//	array_str = split_str(buffer, " ");
-		array_str = malloc(2 * sizeof(char *));
-		array_str[0] = strdup(buffer);
-		array_str[1] = NULL;
+		array_str = split_str(buffer, " ");
+		//array_str = malloc(2 * sizeof(char *));
+		//array_str[0] = strdup(buffer);
+		//array_str[1] = NULL;
 
-		printf("array_str[0] = %s\n", array_str[0]);
-		printf("array_str[1] = %s\n", array_str[1]);
+		i = 0;
+		while (array_str && array_str[i])
+		{
+			printf("array_str[%d] = %s\n", i, array_str[i]);
+			i++;
+		}
+		
+
+
+		//printf("array_str[0] = %s\n", array_str[0]);
+		//printf("array_str[1] = %s\n", array_str[1]);
 		valid = stat(array_str[0], &st);
 		if (valid == 0)
 		{
