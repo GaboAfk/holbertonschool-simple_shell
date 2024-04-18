@@ -112,12 +112,6 @@ int main(void)
 			break;
 		}
 
-		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
-		{
-			free(buffer);
-			break;
-		}
-
 		buf_len = strlen(buffer);
 		if (buffer[buf_len - 1] == '\n')
 			buffer[buf_len - 1] = '\0';
@@ -127,7 +121,7 @@ int main(void)
 		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
 		{
 			free(buffer);
-			break;
+			exit(-1);
 		}
 
 		array_str = split_str(buffer, " ");
@@ -143,6 +137,13 @@ int main(void)
 		{
 			printf("array_str[%d] = %s\n", i, array_str[i]);
 			i++;
+		}
+
+		if (strncmp(array_str[0], "env", 3) == 0)
+		{
+			for (i = 0; environ[i]; i++)
+				printf("%s\n", environ[i]);
+			break;
 		}
 
 

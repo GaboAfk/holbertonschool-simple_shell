@@ -112,12 +112,6 @@ int main(void)
 			break;
 		}
 
-		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
-		{
-			free(buffer);
-			break;
-		}
-
 		buf_len = strlen(buffer);
 		if (buffer[buf_len - 1] == '\n')
 			buffer[buf_len - 1] = '\0';
@@ -127,7 +121,7 @@ int main(void)
 		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
 		{
 			free(buffer);
-			break;
+			exit(-1);
 		}
 
 		array_str = split_str(buffer, " ");
