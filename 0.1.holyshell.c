@@ -50,6 +50,7 @@ int main(void)
 		{
 		if (execve(argv[0], argv, environ) == -1)
 			perror("Error");
+		break;
 		}
 		else
 			wait(&status);

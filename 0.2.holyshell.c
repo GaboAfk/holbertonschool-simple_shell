@@ -18,7 +18,7 @@
  * @buffer: entry string
  * Return: an array of each words of str
  */
-char **split_str(char *buffer)
+char **split_str(char *buffer, char *delim)
 {
 	char *token, *cp_buffer;
 	char **array;
@@ -31,23 +31,22 @@ char **split_str(char *buffer)
 	if (!cp_buffer)
 		return (NULL);
 
-	token = strtok(buffer, " ");
+	token = strtok(buffer, delim);
 
 	while (token)
 	{
 		words++;
-		token = strtok(NULL, " ");
+		token = strtok(NULL, delim);
 	}
 
 	array = malloc((words + 1)  * sizeof(char *));
-	printf("array = malloc((%d + 1) * %ld)\n", words, sizeof(char *));
 	if (!array)
 	{
 		free(cp_buffer);
 		return (NULL);
 	}
 
-	token = strtok(cp_buffer, " ");
+	token = strtok(cp_buffer, delim);
 
 	while (token)
 	{
@@ -63,7 +62,7 @@ char **split_str(char *buffer)
 			return (NULL);
 		}
 
-		token = strtok(NULL, " ");
+		token = strtok(NULL, delim);
 		i++;
 	}
 
@@ -82,7 +81,9 @@ int main(void)
 	char *buffer = NULL;
 	char **array_str = NULL;
 	size_t bufsiz = 0;
-	int err, i = 0, buf_len;
+	int err, i = 0, buf_len, status, valid;
+	struct stat st;
+	pid_t pid;
 
 	while (1)
 	{
@@ -106,26 +107,38 @@ int main(void)
 			break;
 		}
 
-		array_str = split_str(buffer);
+	//	array_str = split_str(buffer, " ");
+		array_str = malloc(2 * sizeof(char *));
+		array_str[0] = strdup(buffer);
+		array_str[1] = NULL;
+		valid = stat(array_str[0], &st);
+		if (valid == 0)
+		{
+			pid = fork();
 
-		if (execve(array_str[0], array_str, environ) == -1)
+			if (pid == -1)
+			{
+				perror("Error");
+				return (1);
+			}
+	
+			if (pid == 0)
+			{
+				if (execve(array_str[0], array_str, environ) == -1)
+					perror("Error");
+			}
+		
+			else
+				wait(&status);
+		}
+		else
 			perror("Error");
 
-		i = 0;
 		while (array_str && array_str[i])
 		{
-			printf("array_str[%d] = %s\n", i, array_str[i]);
-			i++;
-		}
-		printf("array_str[%d] = %s\n", i, array_str[i]);
-		i = 0;
-		while (array_str && array_str[i])
-		{
-			printf("free(array_str[%d] = %s)\n", i, array_str[i]);
 			free(array_str[i]);
 			i++;
 		}
-		printf("free(array_str[%d] = %s)\n", i, array_str[i]);
 		free(array_str[i]);
 
 		if (array_str)
