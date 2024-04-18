@@ -14,7 +14,8 @@ int main(void)
 {
 	char *buffer = NULL;
 	size_t bufsiz = 0, buf_len;
-	int err;
+	int err, status;
+	pid_t pid;
 	char *argv[] = {NULL, NULL};
 
 	while (1)
@@ -38,8 +39,20 @@ int main(void)
 
 		argv[0] = buffer;
 
+		pid = fork();
+
+		if (pid == -1)
+		{
+			perror("Error");
+			return (1);
+		}
+		if (pid == 0)
+		{
 		if (execve(argv[0], argv, environ) == -1)
 			perror("Error");
+		}
+		else
+			wait(&status);
 	}
 	free(buffer);
 	return (0);
