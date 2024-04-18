@@ -101,6 +101,8 @@ int main(void)
 		if (buffer[buf_len - 1] == '\n')
 			buffer[buf_len - 1] = '\0';
 
+		printf("buffer = %s buf_len = %d\n", buffer, buf_len);	
+
 		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
 		{
 			free(buffer);
@@ -111,6 +113,9 @@ int main(void)
 		array_str = malloc(2 * sizeof(char *));
 		array_str[0] = strdup(buffer);
 		array_str[1] = NULL;
+
+		printf("array_str[0] = %s\n", array_str[0]);
+		printf("array_str[1] = %s\n", array_str[1]);
 		valid = stat(array_str[0], &st);
 		if (valid == 0)
 		{
@@ -134,11 +139,14 @@ int main(void)
 		else
 			perror("Error");
 
+		i = 0;
 		while (array_str && array_str[i])
 		{
+			printf("free: array_str[%d] = %s\n", i, array_str[i]);
 			free(array_str[i]);
 			i++;
 		}
+		printf("free: array_str[%d] = %s\n", i, array_str[i]);
 		free(array_str[i]);
 
 		if (array_str)
