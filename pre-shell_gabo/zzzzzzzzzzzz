@@ -1,2 +1,0 @@
-int main(void);
-void path_printer(char *str);
