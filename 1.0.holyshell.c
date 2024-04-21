@@ -4,84 +4,57 @@
 */
 
 #include "zzz.h"
-#include <signal.h>
-
-#define BOLD "\033[1m"
-#define BLINK "\033[6m"
-#define INVERT "\033[7m"
-#define RED "\033[31m"
-#define YELLOW "\033[33m"
-#define RESET "\033[0m"
-#define BG_CYAN "\033[46m"
 
 /**
- * split_str - split an str
+ * split_str2 - split an str
  * @buffer: entry string
  * Return: an array of each words of str
  */
-char **split_str(char *buffer, char *delim)
+int split_str2(char ***array, char *buffer, char *delim)
 {
 	char *token, *cp_buffer;
-	char **array;
-	int words = 0, i = 0, j;
+	int words = 0, i = 0;
 
 	if (!buffer)
-		return (NULL);
+		return (0);
 
 	cp_buffer = strdup(buffer);
 	if (!cp_buffer)
-		return (NULL);
+		return (0);
 
 	token = strtok(buffer, delim);
 
 	while (token)
-	{
-		words++;
-		token = strtok(NULL, delim);
-	}
+		words++, token = strtok(NULL, delim);
 
-	array = malloc((words + 1)  * sizeof(char *));
+	*array = malloc((words + 1)  * sizeof(char *));
 	if (!array)
 	{
 		free(cp_buffer);
-		return (NULL);
+		return (0);
 	}
 
 	token = strtok(cp_buffer, delim);
-
 	while (token)
 	{
-		array[i] = strdup(token);
-		if (!array[i])
+		(*array)[i] = strdup(token);
+		if (!(*array)[i])
 		{
-			for (j = 0; j < i; j++)
-				free(array[j]);
-
-			free(array);
-			free(cp_buffer);
-			printf("Error copy into array\n");
-			return (NULL);
+			array_in_free(*array), free(cp_buffer);
+			return (0);
 		}
-
 		token = strtok(NULL, delim);
 		i++;
 	}
 
-	array[words] = NULL;
-	free(cp_buffer);
-	return (array);
+	(*array)[words] = NULL, free(cp_buffer);
+	return (i);
 }
 
-/**
- * sigint_handler - rompenachos
- * @signum: signum
- */
-void sigint_handler(int signum)
-{
-	(void)signum;
-	printf("No tan rapido amigo GGizi\n");
-}
-
+/*struct termios original_termios;
+void restore_terminal() {
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &original_termios);
+}*/
 
 /**
  * main - simple_shell
@@ -90,103 +63,43 @@ void sigint_handler(int signum)
  */
 int main(void)
 {
-	char *buffer = NULL;
-	char **array_str = NULL;
+	char *buffer = NULL, **array_str = NULL;
 	size_t bufsiz = 0;
-	int err, i = 0, buf_len, status, valid;
-	struct stat st;
-	pid_t pid;
+	int err, buf_st, cmd_count;
 
+
+	/*tcgetattr(STDIN_FILENO, &original_termios);
+    atexit(restore_terminal);*/
 	signal(SIGINT, sigint_handler);
 
 	while (1)
 	{
-		printf("%s%s%s%s%s#holy$hel%s ", INVERT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
+		printf("%s%s%s%s%s#holy$hel%s ", INVRT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
 
 		err = getline(&buffer, &bufsiz, stdin);
-
 		if (err == -1)
 		{
-			printf("EOF break\n");
 			free(buffer);
 			break;
 		}
 
-		buf_len = strlen(buffer);
-		if (buffer[buf_len - 1] == '\n')
-			buffer[buf_len - 1] = '\0';
-
-		printf("buffer = %s buf_len = %d\n", buffer, buf_len);
-
-		if (strncmp(buffer, "exit", 4) == 0 || strncmp(buffer, "EOF", 3) == 0)
+		buf_st = buff_cleaner(buffer);
+		if (buf_st < 0)
 		{
-			free(buffer);
-			exit(-1);
+			free(buffer), buffer = NULL;
+			continue;
 		}
+		cmd_count = split_str2(&array_str, buffer, " ");
 
-		array_str = split_str(buffer, " ");
-		//array_str = malloc(2 * sizeof(char *));
-		//array_str[0] = strdup(buffer);
-		//array_str[1] = NULL;
+		if (spc_cmd(array_str[0], cmd_count))
+			array_in_free(array_str), free(buffer), buffer = NULL, exit(1);
 
-		printf("array_str[%d] = %s\n", 0, array_str[0]);
-		get_dir(&array_str[0]);
-
-		i = 0;
-		while (array_str && array_str[i])
-		{
-			printf("array_str[%d] = %s\n", i, array_str[i]);
-			i++;
-		}
-
-		if (strncmp(array_str[0], "env", 3) == 0)
-		{
-			for (i = 0; environ[i]; i++)
-				printf("%s\n", environ[i]);
-			break;
-		}
-
-
-		//printf("array_str[0] = %s\n", array_str[0]);
-		//printf("array_str[1] = %s\n", array_str[1]);
-		valid = stat(array_str[0], &st);
-		if (valid == 0)
-		{
-			pid = fork();
-
-			if (pid == -1)
-			{
-				perror("Error");
-				return (1);
-			}
-
-			if (pid == 0)
-			{
-				if (execve(array_str[0], array_str, environ) == -1)
-					perror("Error");
-			}
-			else
-				wait(&status);
-		}
+		if (get_dir(&array_str[0]) == 1)
+			children_maker(array_str[0], array_str);
 		else
 			perror("Error");
 
-		i = 0;
-		while (array_str && array_str[i])
-		{
-//			printf("free: array_str[%d] = %s\n", i, array_str[i]);
-			free(array_str[i]);
-			i++;
-		}
-//		printf("free: array_str[%d] = %s\n", i, array_str[i]);
-		free(array_str[i]);
-
-		if (array_str)
-		free(array_str);
-		array_str = NULL;
-
-		free(buffer);
-		buffer = NULL;
+		array_in_free(array_str), free(buffer), buffer = NULL;
 	}
 	return (0);
 }

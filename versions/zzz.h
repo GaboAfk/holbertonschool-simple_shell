@@ -3,7 +3,7 @@
 
 #define BOLD "\033[1m"
 #define BLINK "\033[6m"
-#define INVRT "\033[7m"
+#define INVERT "\033[7m"
 #define RED "\033[31m"
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
@@ -17,7 +17,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
-#include <termios.h>
 
 
 extern char **environ;
@@ -29,8 +28,5 @@ void array_in_free(char **arr);
 int buff_cleaner(char *buffer);
 void children_maker(char *command, char **array);
 int spc_cmd(char *cmd, int cmd_count);
-void sigint_handler(int signum);
-
-
 
 #endif

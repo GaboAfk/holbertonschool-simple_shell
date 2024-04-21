@@ -38,22 +38,48 @@ char *_getenv(char *name)
 int get_dir(char **function)
 {
 	char *directories, path[1024], **array_dir = NULL;
-	int i = 0, valid_stat = 0;
+	int i = 0, k, valid_stat = 0;
 	struct stat st;
-	size_t k;
 
 	if (stat(*function, &st) == 0)
 		return (1);
 
+/*	if (strncmp(*function, "env", 3) == 0)
+	{
+		for (i = 0; environ[i]; i++)
+			printf("%s\n", environ[i]);
+		return;
+	}
+*/
+
+//	printf("-----------------\n");
+//	printf("get_dir(function)\n");
+//	printf("-----------------\n");
+//	printf("function = %s\n", *function);
+
 	directories = _getenv("PATH");
+
+
+//	printf("directories = %s\n", directories);
+
 	split_str2(&array_dir, directories, ":");
+
 	free(directories);
 
-	for (k = 0; k < 1024; k++)
+	i = 0;
+	while (array_dir && array_dir[i])
+	{
+//		printf("array_dir[%d] = %s\n", i, array_dir[i]);
+		i++;
+	}
+
+	i = 0;
+	while (array_dir && array_dir[i])
+	{
+	//	memset(path, 0, sizeof(path));
+		for (k = 0; k < 1024; k++)
 			path[k] = 0;
 
-	for (i = 0; array_dir && array_dir[i]; i++)
-	{
 		strcat(path, array_dir[i]);
 		strcat(path, "/");
 		strcat(path, *function);
@@ -61,7 +87,8 @@ int get_dir(char **function)
 		if (stat(path, &st) == 0)
 		{
 			valid_stat = 1;
-			free(*function), *function = NULL;
+			free (*function);
+			*function = NULL;
 			*function = strdup(path);
 			if (!function)
 			{
@@ -70,13 +97,19 @@ int get_dir(char **function)
 			}
 			break;
 		}
-//		printf("path = %s\n", path);
-//		printf("strlen(path) = %ld\n", strlen(path));
-			for (k = 0; k < strlen(path); k++)
-			path[k] = 0;
-
+		i++;
 	}
-	array_in_free(array_dir);
+	i = 0;
+	while (array_dir && array_dir[i])
+	{
+		free(array_dir[i]);
+		i++;
+	}
+	free(array_dir);
+//	printf("--------------------------\n");
+//	printf("salgo de get_dir(function)\n");
+//	printf("--------------------------\n");
+
  return (valid_stat);
 
 }

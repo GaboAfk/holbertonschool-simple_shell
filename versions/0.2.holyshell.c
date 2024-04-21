@@ -100,7 +100,7 @@ int main(void)
 
 	while (1)
 	{
-		printf("%s%s%s%s%s#holy$hel%s ", INVERT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
+		printf("%s%s%s%s%s#holy$hell%s ", INVERT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
 
 		err = getline(&buffer, &bufsiz, stdin);
 
