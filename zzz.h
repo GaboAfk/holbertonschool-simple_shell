@@ -3,7 +3,7 @@
 
 #define BOLD "\033[1m"
 #define BLINK "\033[6m"
-#define INVRT "\033[7m"
+#define INV "\033[7m"
 #define RED "\033[31m"
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
