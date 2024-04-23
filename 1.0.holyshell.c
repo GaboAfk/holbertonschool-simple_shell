@@ -77,7 +77,7 @@ int main(void)
 			break;
 		}
 
-		if (buff_clener(buffer) < 0)
+		if (buff_cleaner(buffer) < 0)
 		{
 			free(buffer), buffer = NULL;
 			continue;
