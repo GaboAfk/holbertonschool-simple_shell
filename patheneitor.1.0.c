@@ -51,7 +51,7 @@ int get_dir(char **function)
 	free(directories);
 
 	for (k = 0; k < 1024; k++)
-			path[k] = 0;
+		path[k] = 0;
 
 	for (i = 0; array_dir && array_dir[i]; i++)
 	{
@@ -76,6 +76,6 @@ int get_dir(char **function)
 
 	}
 	array_in_free(array_dir);
- return (valid_stat);
+	return (valid_stat);
 
 }

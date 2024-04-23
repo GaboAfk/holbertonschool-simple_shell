@@ -82,8 +82,8 @@ int main(void)
 			free(buffer), buffer = NULL;
 			continue;
 		}
-		
-		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " "))
+
+		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " ")))
 			array_in_free(array_str), free(buffer), buffer = NULL, exit(1);
 
 		if (get_dir(&array_str[0]) == 1)

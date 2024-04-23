@@ -12,7 +12,7 @@ void sigint_handler(int signum)
 
 /**
  * array_in_free - free an array
- * @array: entry array of strings
+ * @arr: entry array of strings
  */
 
 void array_in_free(char **arr)
@@ -31,6 +31,7 @@ void array_in_free(char **arr)
 /**
  * buff_cleaner - clears the buffer in case of spaces, tabs or new lines only
  * @buffer: entry array or input prompt
+ * Return: 0 Success other if fails
  */
 
 int buff_cleaner(char *buffer)
