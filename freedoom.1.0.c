@@ -7,10 +7,13 @@
 void sigint_handler(int signum)
 {
 	(void)signum;
-	//printf("\b\b  \n");
 	printf("No tan rapido amigo GGizi\n");
-	//printf("%s%s%s%s%s#holy$hel%s ", INVRT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
 }
+
+/**
+ * array_in_free - free an array
+ * @array: entry array of strings
+ */
 
 void array_in_free(char **arr)
 {
@@ -25,6 +28,10 @@ void array_in_free(char **arr)
 	arr = NULL;
 }
 
+/**
+ * buff_cleaner - clears the buffer in case of spaces, tabs or new lines only
+ * @buffer: entry array or input prompt
+ */
 
 int buff_cleaner(char *buffer)
 {
@@ -52,6 +59,12 @@ int buff_cleaner(char *buffer)
 	return (0);
 }
 
+/**
+ *children_maker - creates a child procces of the program
+ *@command: entry string or path to execute
+ *@array: entry command and flags
+ */
+
 void children_maker(char *command, char **array)
 {
 	pid_t pid;
@@ -73,6 +86,13 @@ void children_maker(char *command, char **array)
 	else
 		wait(&status);
 }
+
+/**
+ * spc_cmd - checks if input promt is exit or print env
+ * @cmd: entry string or input prompt
+ * @cmd_count: n°of commands or arguments
+ * Return: 1 if is exit 0 if not
+ */
 
 int spc_cmd(char *cmd, int cmd_count)
 {

@@ -7,9 +7,12 @@
 
 /**
  * split_str2 - split an str
- * @buffer: entry string
- * Return: an array of each words of str
+ * @array: enters and modifies an a array of strings
+ * @buffer: entry buffer or input prompt
+ * @delim: entry delimiter
+ * Return: n°of commands and flags
  */
+
 int split_str2(char ***array, char *buffer, char *delim)
 {
 	char *token, *cp_buffer;
@@ -51,47 +54,36 @@ int split_str2(char ***array, char *buffer, char *delim)
 	return (i);
 }
 
-/*struct termios original_termios;
-void restore_terminal() {
-    tcsetattr(STDIN_FILENO, TCSAFLUSH, &original_termios);
-}*/
-
 /**
  * main - simple_shell
  *
  * Return: Always 0 (Success)
  */
+
 int main(void)
 {
 	char *buffer = NULL, **array_str = NULL;
 	size_t bufsiz = 0;
-	int err, buf_st, cmd_count;
 
-
-	/*tcgetattr(STDIN_FILENO, &original_termios);
-    atexit(restore_terminal);*/
 	signal(SIGINT, sigint_handler);
 
 	while (1)
 	{
-		printf("%s%s%s%s%s#holy$hel%s ", INVRT, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
+		printf("%s%s%s%s%s#holy$hell%s ", INV, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
 
-		err = getline(&buffer, &bufsiz, stdin);
-		if (err == -1)
+		if (getline(&buffer, &bufsiz, stdin) == -1)
 		{
 			free(buffer);
 			break;
 		}
 
-		buf_st = buff_cleaner(buffer);
-		if (buf_st < 0)
+		if (buff_clener(buffer) < 0)
 		{
 			free(buffer), buffer = NULL;
 			continue;
 		}
-		cmd_count = split_str2(&array_str, buffer, " ");
-
-		if (spc_cmd(array_str[0], cmd_count))
+		
+		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " "))
 			array_in_free(array_str), free(buffer), buffer = NULL, exit(1);
 
 		if (get_dir(&array_str[0]) == 1)

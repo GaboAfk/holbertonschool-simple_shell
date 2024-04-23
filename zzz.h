@@ -21,7 +21,6 @@
 
 
 extern char **environ;
-//char **split_str(char *buffer, char *delim);
 int split_str2(char ***array, char *buffer, char *delim);
 char *_getenv(char *name);
 int get_dir(char **function);

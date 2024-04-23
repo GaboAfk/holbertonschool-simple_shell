@@ -2,13 +2,15 @@
 * File: patheneitor.c
 * Auth: Gabriel Morffe, Joaquin Aguilar
 */
+
 #include "zzz.h"
 
 /**
  * _getenv - search path in environ
  * @name: PATH to find
- * Return: PATH of @name of NULL
+ * Return: PATH of @name or NULL
  */
+
 char *_getenv(char *name)
 {
 	int i = 0;
@@ -17,24 +19,23 @@ char *_getenv(char *name)
 	char *directories = NULL;
 
 	while (env[i])
-	//while (environ[i])
 	{
 		if ((strncmp(env[i], name, name_len) == 0) && (env[i])[name_len] == '=')
 		{
 			directories = strdup(&((env[i])[name_len + 1]));
 			return (directories);
 		}
-//		if ((strncmp(environ[i], name, name_len) == 0) && (environ[i])[name_len] == '=')
-//			return (&((environ[i])[name_len + 1]));
 		i++;
 	}
 	return (NULL);
 }
 
 /**
- * get_dir - search a valid directory for @function and return a new PATH
- * @function: entry function
+ * get_dir - search a valid directory for @function
+ * @function: enter and modify the value with the command directory
+ * Return: 1 if the command directory is valid 0 if not
  */
+
 int get_dir(char **function)
 {
 	char *directories, path[1024], **array_dir = NULL;
@@ -70,8 +71,6 @@ int get_dir(char **function)
 			}
 			break;
 		}
-//		printf("path = %s\n", path);
-//		printf("strlen(path) = %ld\n", strlen(path));
 			for (k = 0; k < strlen(path); k++)
 			path[k] = 0;
 
