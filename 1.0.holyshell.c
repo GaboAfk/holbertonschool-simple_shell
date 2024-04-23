@@ -69,7 +69,8 @@ int main(void)
 
 	while (1)
 	{
-		printf("%s%s%s%s%s#holy$hell%s ", INV, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
+		if (isatty(STDIN_FILENO))
+			printf("%s%s%s%s%s#holy$hell%s ", INV, BOLD, BLINK, YELLOW, BG_CYAN, RESET);
 
 		if (getline(&buffer, &bufsiz, stdin) == -1)
 		{
