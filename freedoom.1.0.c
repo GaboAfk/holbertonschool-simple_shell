@@ -103,6 +103,8 @@ int spc_cmd(char *cmd, int cmd_count)
 	{
 		if (errno != 127 && errno != 0)
 			errno = 2;
+		else if (errno != 127 && errno != 2)
+			errno = 0;
 		return (1);
 	}
 
