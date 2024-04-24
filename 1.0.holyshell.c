@@ -61,11 +61,11 @@ int split_str2(char ***array, char *buffer, char *delim)
  * Return: Always 0 (Success)
  */
 
-int main(int ac, char *av[])
+int main(int ac, char *av[], char **env)
 {
 	char *buffer = NULL, **array_str = NULL;/*/ *av0 = av[0];*/
 	size_t bufsiz = 0;
-	(void)ac, (void)av;
+	(void)ac, (void)av, errno = 0;
 
 	signal(SIGINT, sigint_handler);
 
@@ -87,16 +87,16 @@ int main(int ac, char *av[])
 		}
 
 		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " ")))
-			array_in_free(array_str), free(buffer), buffer = NULL, exit(0);
+			array_in_free(array_str), free(buffer), buffer = NULL, exit(errno);
 
-		if (get_dir(&array_str[0]) == 1)
+		if (get_dir(&array_str[0], env) == 1)
 			children_maker(array_str[0], array_str);
 		else
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);
 			/*/fprintf(stderr, "errno = %s\n", strerror(errno));/*/
-			array_in_free(array_str), free(buffer), buffer = NULL;
-			errno = 127, exit(errno);
+			/*array_in_free(array_str), free(buffer), buffer = NULL;*/
+			errno = 127;  /*, exit(errno);*/
 		}
 
 		array_in_free(array_str), free(buffer), buffer = NULL;

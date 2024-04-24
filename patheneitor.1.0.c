@@ -8,13 +8,14 @@
 /**
  * _getenv - search path in environ
  * @name: PATH to find
+ * @env: environ variables
  * Return: PATH of @name or NULL
  */
 
-char *_getenv(char *name)
+char *_getenv(char *name, char **env)
 {
 	int i = 0;
-	char **env = environ;
+	/*char **env = environ;*/
 	size_t name_len = strlen(name);
 	char *directories = NULL;
 
@@ -37,10 +38,11 @@ char *_getenv(char *name)
 /**
  * get_dir - search a valid directory for @function
  * @function: enter and modify the value with the command directory
+ * @env: environ variables
  * Return: 1 if the command directory is valid 0 if not
  */
 
-int get_dir(char **function)
+int get_dir(char **function, char **env)
 {
 	char *directories = NULL, path[1024], **array_dir = NULL;
 	int i = 0, valid_stat = 0;
@@ -49,7 +51,7 @@ int get_dir(char **function)
 
 	if (stat(*function, &st) == 0)
 		return (1);
-	directories = _getenv("PATH=");
+	directories = _getenv("PATH=", env);
 	if (!directories)
 		return (valid_stat);
 
