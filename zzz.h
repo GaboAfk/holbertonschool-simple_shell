@@ -27,7 +27,7 @@ char *_getenv(char *name, char **env);
 int get_dir(char **function, char **env);
 void array_in_free(char **arr);
 int buff_cleaner(char *buffer);
-void children_maker(char *command, char **array);
+void children_maker(char *command, char **array, char **env);
 int spc_cmd(char *cmd, int cmd_count);
 void sigint_handler(int signum);
 
