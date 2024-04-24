@@ -56,14 +56,16 @@ int split_str2(char ***array, char *buffer, char *delim)
 
 /**
  * main - simple_shell
- *
+ * @ac: ac.
+ * @av: av.
  * Return: Always 0 (Success)
  */
 
-int main(void)
+int main(int ac, char *av[])
 {
-	char *buffer = NULL, **array_str = NULL;
+	char *buffer = NULL, **array_str = NULL;/*/ *av0 = av[0];*/
 	size_t bufsiz = 0;
+	(void)ac;
 
 	signal(SIGINT, sigint_handler);
 
@@ -75,7 +77,7 @@ int main(void)
 		if (getline(&buffer, &bufsiz, stdin) == -1)
 		{
 			free(buffer);
-			exit(0);
+			break;
 		}
 
 		if (buff_cleaner(buffer) < 0)
@@ -90,7 +92,8 @@ int main(void)
 		if (get_dir(&array_str[0]) == 1)
 			children_maker(array_str[0], array_str);
 		else
-			perror("Error");
+			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);
+			/*perror(av0);*/
 
 		array_in_free(array_str), free(buffer), buffer = NULL;
 	}

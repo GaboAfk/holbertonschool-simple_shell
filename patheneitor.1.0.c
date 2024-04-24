@@ -23,7 +23,10 @@ char *_getenv(char *name)
 		if ((strncmp(env[i], name, name_len) == 0) && (env[i])[name_len] == '=')
 		{
 			directories = strdup(&((env[i])[name_len + 1]));
-			return (directories);
+			if (strlen(directories) > 0)
+				return (directories);
+			else
+				return (NULL);
 		}
 		i++;
 	}
@@ -38,7 +41,7 @@ char *_getenv(char *name)
 
 int get_dir(char **function)
 {
-	char *directories, path[1024], **array_dir = NULL;
+	char *directories = NULL, path[1024], **array_dir = NULL;
 	int i = 0, valid_stat = 0;
 	struct stat st;
 	size_t k;
@@ -47,12 +50,13 @@ int get_dir(char **function)
 		return (1);
 
 	directories = _getenv("PATH");
+	if (!directories)
+		return (valid_stat);
 	split_str2(&array_dir, directories, ":");
 	free(directories);
 
 	for (k = 0; k < 1024; k++)
 		path[k] = 0;
-
 	for (i = 0; array_dir && array_dir[i]; i++)
 	{
 		strcat(path, array_dir[i]);
@@ -73,7 +77,6 @@ int get_dir(char **function)
 		}
 			for (k = 0; k < strlen(path); k++)
 			path[k] = 0;
-
 	}
 	array_in_free(array_dir);
 	return (valid_stat);
