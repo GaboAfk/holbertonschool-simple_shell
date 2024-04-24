@@ -100,7 +100,10 @@ int spc_cmd(char *cmd, int cmd_count)
 	int i;
 
 	if (strncmp(cmd, "exit", 4) == 0 && cmd_count == 1)
+	{
+		errno = 0;
 		return (1);
+	}
 
 	if (strncmp(cmd, "env", 3) == 0 && cmd_count == 1)
 	{
