@@ -75,7 +75,7 @@ int main(void)
 		if (getline(&buffer, &bufsiz, stdin) == -1)
 		{
 			free(buffer);
-			break;
+			exit(0);
 		}
 
 		if (buff_cleaner(buffer) < 0)
