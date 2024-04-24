@@ -20,19 +20,17 @@ char *_getenv(char *name)
 
 	while (env[i])
 	{
-		if ((strncmp(env[i], name, name_len) == 0) && (env[i])[name_len] == '=')
+		if ((strncmp(env[i], name, name_len) == 0))
+		/*// && (env[i])[name_len] == '=')//PATH=*/
 		{
+			/*printf("ENTRE A DIRECTORIOESSSSSSSSSSSS\n");*/
 			directories = strdup(&((env[i])[name_len + 1]));
 			if (strlen(directories) > 0)
 				return (directories);
-			else
-			{
-				free(directories);
-				return (NULL);
-			}
 		}
 		i++;
 	}
+	free(directories);
 	return (NULL);
 }
 
@@ -51,7 +49,7 @@ int get_dir(char **function)
 
 	if (stat(*function, &st) == 0)
 		return (1);
-	directories = _getenv("PATH");
+	directories = _getenv("PATH=");
 	if (!directories)
 		return (valid_stat);
 
