@@ -58,6 +58,7 @@ int split_str2(char ***array, char *buffer, char *delim)
  * main - simple_shell
  * @ac: ac.
  * @av: av.
+ * @env: environ vars
  * Return: Always 0 (Success)
  */
 
@@ -95,7 +96,7 @@ int main(int ac, char *av[], char **env)
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);
 			/*/fprintf(stderr, "errno = %s\n", strerror(errno));/*/
-			/*array_in_free(array_str), free(buffer), buffer = NULL;*/
+			array_in_free(array_str), free(buffer), buffer = NULL;
 			errno = 127, exit(errno);
 		}
 
