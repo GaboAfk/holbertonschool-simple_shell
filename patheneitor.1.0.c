@@ -26,7 +26,10 @@ char *_getenv(char *name)
 			if (strlen(directories) > 0)
 				return (directories);
 			else
+			{
+				free(directories);
 				return (NULL);
+			}
 		}
 		i++;
 	}
@@ -50,10 +53,8 @@ int get_dir(char **function)
 		return (1);
 	directories = _getenv("PATH");
 	if (!directories)
-	{
-		free(directories);
 		return (valid_stat);
-	}
+
 	split_str2(&array_dir, directories, ":");
 	free(directories);
 	for (k = 0; k < 1024; k++)
