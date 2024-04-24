@@ -101,7 +101,8 @@ int spc_cmd(char *cmd, int cmd_count)
 
 	if (strncmp(cmd, "exit", 4) == 0 && cmd_count == 1)
 	{
-		errno = 0;
+		if (errno != 127 && errno != 0)
+			errno = 2;
 		return (1);
 	}
 
