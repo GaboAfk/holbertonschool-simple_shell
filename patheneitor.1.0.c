@@ -51,7 +51,7 @@ int get_dir(char **function)
 	directories = _getenv("PATH");
 	if (!directories)
 	{
-		errno = 127;
+		free(directories);
 		return (valid_stat);
 	}
 	split_str2(&array_dir, directories, ":");

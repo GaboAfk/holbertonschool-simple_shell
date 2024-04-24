@@ -106,6 +106,7 @@ int spc_cmd(char *cmd, int cmd_count)
 	{
 		for (i = 0; environ[i]; i++)
 			printf("%s\n", environ[i]);
+		return (1);
 	}
 	return (0);
 }
