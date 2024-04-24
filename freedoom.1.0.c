@@ -64,9 +64,10 @@ int buff_cleaner(char *buffer)
  *children_maker - creates a child procces of the program
  *@command: entry string or path to execute
  *@array: entry command and flags
+ *@env: environ variables
  */
 
-void children_maker(char *command, char **array)
+void children_maker(char *command, char **array, char **env)
 {
 	pid_t pid;
 	int status;
@@ -81,7 +82,7 @@ void children_maker(char *command, char **array)
 
 	if (pid == 0)
 	{
-		if (execve(command, array, environ) == -1)
+		if (execve(command, array, env) == -1)
 			perror("Error");
 	}
 	else
@@ -101,10 +102,10 @@ int spc_cmd(char *cmd, int cmd_count)
 
 	if (strncmp(cmd, "exit", 4) == 0 && cmd_count == 1)
 	{
-		if (errno != 127 && errno != 0)
-			errno = 2;
-		else if (errno != 127 && errno != 2)
-			errno = 0;
+		/*/if (errno != 127 && errno != 0)/*/
+		/*/	errno = 2;/*/
+		/*/else if (errno != 127 && errno != 2)/*/
+		/*/	errno = 0;*/
 		return (1);
 	}
 

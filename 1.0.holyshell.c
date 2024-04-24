@@ -87,16 +87,16 @@ int main(int ac, char *av[], char **env)
 		}
 
 		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " ")))
-			array_in_free(array_str), free(buffer), buffer = NULL, exit(errno);
+			array_in_free(array_str), free(buffer), buffer = NULL, exit(0);
 
 		if (get_dir(&array_str[0], env) == 1)
-			children_maker(array_str[0], array_str);
+			children_maker(array_str[0], array_str, env);
 		else
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);
 			/*/fprintf(stderr, "errno = %s\n", strerror(errno));/*/
 			/*array_in_free(array_str), free(buffer), buffer = NULL;*/
-			errno = 127;  /*, exit(errno);*/
+			errno = 127, exit(errno);
 		}
 
 		array_in_free(array_str), free(buffer), buffer = NULL;
