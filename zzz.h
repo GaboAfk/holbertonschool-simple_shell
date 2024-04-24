@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <termios.h>
+#include <errno.h>
 
 
 extern char **environ;

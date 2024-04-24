@@ -65,7 +65,7 @@ int main(int ac, char *av[])
 {
 	char *buffer = NULL, **array_str = NULL;/*/ *av0 = av[0];*/
 	size_t bufsiz = 0;
-	(void)ac;
+	(void)ac, (void)av;
 
 	signal(SIGINT, sigint_handler);
 
@@ -87,14 +87,17 @@ int main(int ac, char *av[])
 		}
 
 		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " ")))
-			array_in_free(array_str), free(buffer), buffer = NULL, exit(1);
+			array_in_free(array_str), free(buffer), buffer = NULL, exit(0);
 
 		if (get_dir(&array_str[0]) == 1)
 			children_maker(array_str[0], array_str);
 		else
+		{
 			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);
-			/*perror(av0);*/
+			/*/fprintf(stderr, "errno = %s\n", strerror(errno));/*/
+			exit(errno);
 
+		}
 		array_in_free(array_str), free(buffer), buffer = NULL;
 	}
 	return (0);

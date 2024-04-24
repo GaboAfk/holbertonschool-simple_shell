@@ -48,13 +48,14 @@ int get_dir(char **function)
 
 	if (stat(*function, &st) == 0)
 		return (1);
-
 	directories = _getenv("PATH");
 	if (!directories)
+	{
+		errno = 127;
 		return (valid_stat);
+	}
 	split_str2(&array_dir, directories, ":");
 	free(directories);
-
 	for (k = 0; k < 1024; k++)
 		path[k] = 0;
 	for (i = 0; array_dir && array_dir[i]; i++)
@@ -80,5 +81,4 @@ int get_dir(char **function)
 	}
 	array_in_free(array_dir);
 	return (valid_stat);
-
 }
