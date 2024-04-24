@@ -23,8 +23,8 @@
 
 extern char **environ;
 int split_str2(char ***array, char *buffer, char *delim);
-char *_getenv(char *name);
-int get_dir(char **function);
+char *_getenv(char *name, char **env);
+int get_dir(char **function, char **env);
 void array_in_free(char **arr);
 int buff_cleaner(char *buffer);
 void children_maker(char *command, char **array);
