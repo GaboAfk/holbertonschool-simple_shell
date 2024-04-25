@@ -21,7 +21,7 @@ char *_getenv(char *name, char **env)
 
 	while (env[i])
 	{
-		/*printf("env[%i] = %.5s name = %s len = %ld\n", i, env[i], name, name_len);*/
+		/*printf("env[%i] = %.5s name = %s len = %ld\n",i, env[i], name, name_len);*/
 		if ((strncmp(env[i], name, name_len) == 0))
 		/*// && (env[i])[name_len] == '=')//PATH=*/
 		{
@@ -50,14 +50,11 @@ int get_dir(char **function, char **env)
 	struct stat st;
 	size_t k;
 
-	if (strchr(*function, '/')) //si es directorio y stat corre imprime, es valid_stat = 1
-	{
-		if ((*function, &st) == 0)
-			return (1);
-		return (ERROR);
-	}
+	if (strchr(*function, '/'))
+		return (stat(*function, &st) == 0 ? 1 : 0);
+
 	directories = _getenv("PATH=", env);
-	if (!directories)
+	if (!directories || valid_stat)
 		return (valid_stat);
 
 	split_str2(&array_dir, directories, ":");
