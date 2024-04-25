@@ -21,10 +21,11 @@ char *_getenv(char *name, char **env)
 
 	while (env[i])
 	{
+		printf("env[%i] = %.5s name = %s len = %ld\n", i, env[i], name, name_len);
 		if ((strncmp(env[i], name, name_len) == 0))
 		/*// && (env[i])[name_len] == '=')//PATH=*/
 		{
-			/*printf("ENTRE A DIRECTORIOESSSSSSSSSSSS\n");*/
+			printf("ENTRE A DIRECTORIOESSSSSSSSSSSS\n");
 			directories = strdup(&((env[i])[name_len + 1]));
 			if (strlen(directories) > 0)
 				return (directories);
