@@ -92,7 +92,7 @@ Holy$hell exit
 ```
 
 ### Flowchart of the shell
-<img src="https://iili.io/JUFHQOQ.png">
+<img src="https://iili.io/JUBwMCP.png">
 
 ## Authors
 Gabriel Morffe, Joaquin Aguilar
