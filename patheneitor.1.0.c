@@ -54,10 +54,11 @@ int get_dir(char **function, char **env)
 	/*printf("directories = %s\n", directories);*/
 	if (!directories)
 		return (valid_stat);
-
 	if (stat(*function, &st) == 0)
+	{
+		free(directories);
 		return (1);
-
+	}
 	split_str2(&array_dir, directories, ":");
 	free(directories);
 	for (k = 0; k < 1024; k++)
@@ -70,8 +71,7 @@ int get_dir(char **function, char **env)
 		/*printf("path = %s stat = %d\n", path, stat(path, &st));*/
 		if (stat(path, &st) == 0)
 		{
-			valid_stat = 1;
-			free(*function), *function = NULL;
+			valid_stat = 1, free(*function), *function = NULL;
 			*function = strdup(path);
 			if (!function)
 			{
