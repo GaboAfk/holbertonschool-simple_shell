@@ -50,8 +50,12 @@ int get_dir(char **function, char **env)
 	struct stat st;
 	size_t k;
 
-	if (stat(*function, &st) == 0)
-		return (1);
+	if (strchr(*function, '/')) //si es directorio y stat corre imprime, es valid_stat = 1
+	{
+		if ((*function, &st) == 0)
+			return (1);
+		return (ERROR);
+	}
 	directories = _getenv("PATH=", env);
 	if (!directories)
 		return (valid_stat);
