@@ -1,8 +1,10 @@
 # Simple Shell - Holy$hell
 
 This project is a Junior version of a Shell o user interface for Unix-like operating systems
+
 ### Style
 We use "Betty" coding style.
+***
 ### Functions
 * _getenv
 Search path in environ.
@@ -16,8 +18,8 @@ Clears the buffer in case of spaces, tabs or new lines only.
 Creates a child procces of the program
 * spc_cmd
 Checks if input promt is exit or print env
-
-##### Basic Command List
+***
+##### Basic Command Examples List
 * pwd
 * ls
 * sh
@@ -25,15 +27,22 @@ Checks if input promt is exit or print env
 * cat
 * env
 * grep
-
-
+* clear
+***
 ### Instructions for use
+##### Compile the program
+To complie the program, we must use the next code: 
+
+```
+$ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+```
+
 
 ##### Run the HolyShell !!
 In order to run the program, we must execute the next code: 
 
 ```
-./h1.0f
+./hsh
 ```
 ##### Execute a valid command
 
@@ -54,7 +63,7 @@ drwxr-xr-x 2 root root  4096 Apr 24 21:34 advanced_tasks
 -rwxr-xr-x 1 root root   846 Apr 24 21:34 bettyplz_autocompJoaquin2.1
 -rw-r--r-- 1 root root  1905 Apr 24 21:34 freedoom.1.0.c
 -rwxr-xr-x 1 root root   401 Apr 24 21:34 gitpushFiles_All
--rwxr-xr-x 1 root root 17336 Apr 24 21:35 h1.0f
+-rwxr-xr-x 1 root root 17336 Apr 24 21:35 hsh
 drwxr-xr-x 2 root root  4096 Apr 24 21:34 hack
 drwxr-xr-x 2 root root  4096 Apr 24 21:34 mini_shell_joaqunin
 -rw-r--r-- 1 root root  1726 Apr 24 21:34 patheneitor.1.0.c
@@ -72,7 +81,7 @@ Holy$hell lsls
  ##### Clarified example
 ```
 #holy$hell lsls
-./h1.0f: 1: lsls: not found
+./hsh: 1: lsls: not found
 ```
 ##### Exit the program
 
@@ -82,8 +91,9 @@ Holy$hell lsls
 Holy$hell exit
 ```
 
-### Flowchart of the _printf
-<img src="">
+### Flowchart of the shell
+<img src="https://iili.io/JU2JKe2.png">
 
 ## Authors
 Gabriel Morffe, Joaquin Aguilar
+
