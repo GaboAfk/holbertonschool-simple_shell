@@ -50,11 +50,11 @@ int get_dir(char **function, char **env)
 	struct stat st;
 	size_t k;
 
-	if (strchr(*function, '/'))
-		return (stat(*function, &st) == 0 ? 1 : 0);
+	if (strchr(*function, '/') && stat(*function, &st) == 0)
+		return (1);
 
 	directories = _getenv("PATH=", env);
-	if (!directories || valid_stat)
+	if (!directories)
 		return (valid_stat);
 
 	split_str2(&array_dir, directories, ":");
