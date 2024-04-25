@@ -74,7 +74,7 @@ drwxr-xr-x 2 root root  4096 Apr 24 21:34 versions
 ```
 ##### Execute a invalid command
 ```
-Holy$hell lsls
+#holy$hell lsls
 ```
  In the case of executed command is invalid. Print a error message with the name of our program and the invalid command.
 
@@ -88,11 +88,11 @@ Holy$hell lsls
  To exit the program just enter the exit command.
 
 ```
-Holy$hell exit
+#holy$hell exit
 ```
 
 ### Flowchart of the shell
-<img src="https://iili.io/JUBwMCP.png">
+<img src="https://iili.io/JUBr5xa.png">
 
 ## Authors
 Gabriel Morffe, Joaquin Aguilar
