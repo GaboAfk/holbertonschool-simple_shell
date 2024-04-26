@@ -50,12 +50,10 @@ int get_dir(char **function)
 
 	/*if (strchr(*function, '/') && stat(*function, &st) == 0)*/
 	/*	return (1);*/
-
 	directories = _getenv("PATH=");
 	/*printf("directories = %s\n", directories);*/
 	if (!directories && stat(*function, &st) == -1)
 		return (valid_stat);
-
 	split_str2(&array_dir, directories, ":");
 	free(directories);
 	for (k = 0; k < 1024; k++)
@@ -63,10 +61,12 @@ int get_dir(char **function)
 	for (i = 0; array_dir && array_dir[i]; i++)
 	{
 		strcat(path, array_dir[i]);
+		if (stat(path, &st) == 0)
+			valid_stat = 1;
 		strcat(path, "/");
 		strcat(path, *function);
 		/*printf("path = %s stat = %d\n", path, stat(path, &st));*/
-		if (stat(path, &st) == 0)
+		if (stat(path, &st) == 0 || valid_stat)
 		{
 			valid_stat = 1, free(*function), *function = NULL;
 			*function = strdup(path);
