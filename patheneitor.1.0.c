@@ -52,7 +52,7 @@ int get_dir(char **function, char **env)
 
 	directories = _getenv("PATH=", env);
 	/*printf("directories = %s\n", directories);*/
-	if (!directories)
+	if (!directories && stat(*function, &st) == -1)
 		return (valid_stat);
 	if (stat(*function, &st) == 0)
 	{
