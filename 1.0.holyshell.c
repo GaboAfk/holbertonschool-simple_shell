@@ -96,8 +96,8 @@ int main(int ac, char *av[])
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);
 			/*/fprintf(stderr, "errno = %s\n", strerror(errno));/*/
-			/*array_in_free(array_str), free(buffer), buffer = NULL;*/
-			errno = 127;/*, exit(errno);*/
+			array_in_free(array_str), free(buffer), buffer = NULL;
+			errno = 127, exit(errno);
 		}
 
 		array_in_free(array_str), free(buffer), buffer = NULL;
