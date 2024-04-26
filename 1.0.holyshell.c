@@ -58,11 +58,10 @@ int split_str2(char ***array, char *buffer, char *delim)
  * main - simple_shell
  * @ac: ac.
  * @av: av.
- * @env: environ vars
  * Return: Always 0 (Success)
  */
 
-int main(int ac, char *av[], char **env)
+int main(int ac, char *av[])
 {
 	char *buffer = NULL, **array_str = NULL;/*/ *av0 = av[0];*/
 	size_t bufsiz = 0;
@@ -90,8 +89,8 @@ int main(int ac, char *av[], char **env)
 		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " ")))
 			array_in_free(array_str), free(buffer), buffer = NULL, exit(0);
 
-		if (get_dir(&array_str[0], env) == 1)
-			children_maker(array_str[0], array_str, env);
+		if (get_dir(&array_str[0]) == 1)
+			children_maker(array_str[0], array_str);
 		else
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);

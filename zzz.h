@@ -23,11 +23,11 @@
 
 extern char **environ;
 int split_str2(char ***array, char *buffer, char *delim);
-char *_getenv(char *name, char **env);
-int get_dir(char **function, char **env);
+char *_getenv(char *name);
+int get_dir(char **function);
 void array_in_free(char **arr);
 int buff_cleaner(char *buffer);
-void children_maker(char *command, char **array, char **env);
+void children_maker(char *command, char **array);
 int spc_cmd(char *cmd, int cmd_count);
 void sigint_handler(int signum);
 

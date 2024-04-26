@@ -64,10 +64,9 @@ int buff_cleaner(char *buffer)
  *children_maker - creates a child procces of the program
  *@command: entry string or path to execute
  *@array: entry command and flags
- *@env: environ variables
  */
 
-void children_maker(char *command, char **array, char **env)
+void children_maker(char *command, char **array)
 {
 	pid_t pid;
 	int status;
@@ -82,7 +81,7 @@ void children_maker(char *command, char **array, char **env)
 
 	if (pid == 0)
 	{
-		if (execve(command, array, env) == -1)
+		if (execve(command, array, environ) == -1)
 			perror("Error");
 	}
 	else
