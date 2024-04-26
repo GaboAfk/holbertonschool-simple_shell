@@ -28,7 +28,7 @@ int get_dir(char **function);
 void array_in_free(char **arr);
 int buff_cleaner(char *buffer);
 void children_maker(char *command, char **array);
-int spc_cmd(char *cmd, int cmd_count);
+int spc_cmd(char *cmd, int cmd_count, int *exit_st);
 void sigint_handler(int signum);
 
 

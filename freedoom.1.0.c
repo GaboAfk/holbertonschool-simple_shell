@@ -92,19 +92,21 @@ void children_maker(char *command, char **array)
  * spc_cmd - checks if input promt is exit or print env
  * @cmd: entry string or input prompt
  * @cmd_count: n°of commands or arguments
+ * @exit_st: exit status
  * Return: 1 if is exit 0 if not
  */
 
-int spc_cmd(char *cmd, int cmd_count)
+int spc_cmd(char *cmd, int cmd_count, int *exit_st)
 {
 	int i;
 
 	if (strncmp(cmd, "exit", 4) == 0 && cmd_count == 1)
 	{
-		/*/if (errno != 127 && errno != 0)/*/
-		/*/	errno = 2;/*/
-		/*/else if (errno != 127 && errno != 2)/*/
-		/*/	errno = 0;*/
+		if (*exit_st != 127 && *exit_st != 0)
+			*exit_st = 2;
+		else if (*exit_st != 127 && *exit_st != 2)
+			*exit_st = 0;
+
 		return (1);
 	}
 
