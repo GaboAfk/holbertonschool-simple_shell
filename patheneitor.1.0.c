@@ -48,7 +48,7 @@ int get_dir(char **function)
 	struct stat st;
 	size_t k;
 
-	if (/*strchr(*function, '/') &&*/ stat(*function, &st) == 0)
+	if ((**function == '/' || **function == '.') && stat(*function, &st) == 0)
 		return (1);
 
 	directories = _getenv("PATH=");
