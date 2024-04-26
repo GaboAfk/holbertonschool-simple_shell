@@ -54,7 +54,7 @@ int get_dir(char **function)
 	directories = _getenv("PATH=");
 	/*printf("directories = %s\n", directories);*/
 	if (!directories)
-		return (stat(*function, &st) == 0 ? 1 : 0);
+		return (/*stat(*function, &st) == 0 ? 1 :*/ 0);
 
 	split_str2(&array_dir, directories, ":");
 	free(directories);
