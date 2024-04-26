@@ -65,8 +65,9 @@ int main(int ac, char *av[])
 {
 	char *buffer = NULL, **array_str = NULL;/*/ *av0 = av[0];*/
 	size_t bufsiz = 0;
-	(void)ac, (void)av, errno = 0;
 	int exit_st = 0;
+	(void)ac, (void)av, errno = 0;
+	
 
 	signal(SIGINT, sigint_handler);
 
