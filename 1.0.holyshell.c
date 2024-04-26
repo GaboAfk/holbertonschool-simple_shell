@@ -87,7 +87,7 @@ int main(int ac, char *av[])
 			continue;
 		}
 
-		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " "), &errno))
+		if (spc_cmd(array_str[0], split_str2(&array_str, buffer, " ")))
 			array_in_free(array_str), free(buffer), buffer = NULL, exit(errno);
 
 		if (get_dir(&array_str[0]) == 1)

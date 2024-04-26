@@ -48,15 +48,14 @@ int get_dir(char **function)
 	struct stat st;
 	size_t k;
 
+	if (/*strchr(*function, '/') &&*/ stat(*function, &st) == 0)
+		return (1);
+
 	directories = _getenv("PATH=");
 	/*printf("directories = %s\n", directories);*/
 	if (!directories && stat(*function, &st) == -1)
 		return (valid_stat);
-	if (strchr(*function, '/') && stat(*function, &st) == 0)
-	{
-		free(directories);
-		return (1);
-	}
+
 	split_str2(&array_dir, directories, ":");
 	free(directories);
 	for (k = 0; k < 1024; k++)
