@@ -65,7 +65,7 @@ int main(int ac, char *av[])
 {
 	char *buffer = NULL, **array_str = NULL;/*/ *av0 = av[0];*/
 	size_t bufsiz = 0;
-	int exit_status = 0;/*, *exit_st = &exit_status;*/
+	/*int exit_status = 0;, *exit_st = &exit_status;*/
 	(void)ac, (void)av, errno = 0;
 
 	signal(SIGINT, sigint_handler);
@@ -97,7 +97,7 @@ int main(int ac, char *av[])
 			fprintf(stderr, "%s: 1: %s: not found\n", av[0], array_str[0]);
 			/*/fprintf(stderr, "errno = %s\n", strerror(errno));/*/
 			/*array_in_free(array_str), free(buffer), buffer = NULL;*/
-			exit_status = 127;/*, exit(errno);*/
+			errno = 127;/*, exit(errno);*/
 		}
 
 		array_in_free(array_str), free(buffer), buffer = NULL;
